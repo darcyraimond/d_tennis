@@ -13,7 +13,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="",
 
-    package_dir={"": "src"},
+    #package_dir={"": "src"},
     packages=["src"],#setuptools.find_packages(where="src"),
     python_requires=">=3.8",
 )
