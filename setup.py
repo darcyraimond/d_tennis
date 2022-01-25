@@ -4,7 +4,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="d_tennis",
+    name="dTennis",
     version="0.0.1",
     author="Darcy Raimond",
     author_email="darcy.raimond@gmail.com",
@@ -14,7 +14,7 @@ setuptools.setup(
     url="",
 
     package_dir={"": "src"},
-    packages=setuptools.find_packages(where="src"),
+    packages=setuptools.find_packages(),
     python_requires=">=3.8",
 )
 
