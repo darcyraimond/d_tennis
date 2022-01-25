@@ -10,7 +10,6 @@ from .match import Match, MatchArray, match_array
 from .tournament import TournamentArray, tournament_array
 
 
-
 # ==================================================
 # Content below this point
 # ==================================================

@@ -13,37 +13,35 @@ from .match import Match, MatchArray
 
 
 def _assign_round(rd):
-    match rd:
-        case "R128": return "Round of 128"
-        case "R64": return "Round of 64"
-        case "R32": return "Round of 32"
-        case "R16": return "Round of 16"
-        case "QF": return "Quarter Finals"
-        case "SF": return "Semi Finals"
-        case "F": return "Final"
-        case "RR": return "Round Robin"
-        case "BR": return "Bronze Medal Match"
-        case "ER": return "Elimination Round"
-        case _:
-            print(colored("Fatal error:", "red"), f'"{rd}" is not a valid round')
-            exit(1)
+    if rd == "R128": return "Round of 128"
+    if rd == "R64": return "Round of 64"
+    if rd == "R32": return "Round of 32"
+    if rd == "R16": return "Round of 16"
+    if rd == "QF": return "Quarter Finals"
+    if rd == "SF": return "Semi Finals"
+    if rd == "F": return "Final"
+    if rd == "RR": return "Round Robin"
+    if rd == "BR": return "Bronze Medal Match"
+    if rd == "ER": return "Elimination Round"
+
+    print(colored("Fatal error:", "red"), f'"{rd}" is not a valid round')
+    exit(1)
 
 
 def _round_enum(rd):
-    match rd:
-        case "R128": return 1/128
-        case "R64": return 1/64
-        case "R32": return 1/32
-        case "R16": return 1/16
-        case "QF": return 1/8
-        case "SF": return 1/4
-        case "F": return 1/2
-        case "RR": return -1
-        case "BR": return 1/3
-        case "ER": return 0
-        case _:
-            print(colored("Fatal error:", "red"), f'"{rd}" is not a valid round')
-            exit(1)
+    if rd == "R128": return 1/128
+    if rd == "R64": return 1/64
+    if rd == "R32": return 1/32
+    if rd == "R16": return 1/16
+    if rd == "QF": return 1/8
+    if rd == "SF": return 1/4
+    if rd == "F": return 1/2
+    if rd == "RR": return -1
+    if rd == "BR": return 1/3
+    if rd == "ER": return 0
+
+    print(colored("Fatal error:", "red"), f'"{rd}" is not a valid round')
+    exit(1)
 
 
 class Round:

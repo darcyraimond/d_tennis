@@ -41,62 +41,94 @@ def _get_sets(sets):
     for i, s in enumerate(split_sets):
 
         # Handle special cases first:
-        match s:
-            case "W/O"|"NA"|"DEF"|"Walkover":
-                out.append(Set(None, None, "Walkover", False))
-            case "UNK"|"?-?":
-                out.append(Set(None, None, "Unknown", False))
-            case "RET"|"ABD":
-                out.append(Set(None, None, "Retired", False))
-            case "Default"|"Def.":
-                out.append(Set(None, None, "Default", False))
-            case "Unfinished":
-                out.append(Set(None, None, "Incomplete", False))
-            case "Played":
-                assert split_sets[i+1] == "and"
-                assert split_sets[i+2] == "unfinished" or split_sets[i+2] == "abandoned"
-                assert len(split_sets) == i + 3
-                out.append(Set(None, None, "Incomplete", False))
-                break
-            case "In":
-                assert split_sets[i+1] == "Progress" and len(split_sets) == i + 2
-                out.append(Set(None, None, "In Progress", False))
-                break
+        if s == "W/O" or s == "NA" or s == "DEF" or s == "Walkover":
+            out.append(Set(None, None, "Walkover", False))
+        elif s ==  "UNK" or s == "?-?":
+            out.append(Set(None, None, "Unknown", False))
+        elif s == "RET" or s == "ABD":
+            out.append(Set(None, None, "Retired", False))
+        elif s == "Default" or s == "Def.":
+            out.append(Set(None, None, "Default", False))
+        elif s == "Unfinished":
+            out.append(Set(None, None, "Incomplete", False))
+        elif s == "Played":
+            assert split_sets[i+1] == "and"
+            assert split_sets[i+2] == "unfinished" or split_sets[i+2] == "abandoned"
+            assert len(split_sets) == i + 3
+            out.append(Set(None, None, "Incomplete", False))
+            break
+        elif s == "In":
+            assert split_sets[i+1] == "Progress" and len(split_sets) == i + 2
+            out.append(Set(None, None, "In Progress", False))
+            break
             
-            # Cases where a score has eroneously turned into a date
-            case "Apr-00":
+        # Cases where a score has eroneously turned into a date
+        elif s == "Apr-00":
                 out.append(Set((4,0), None, "Incomplete", False))
 
-            # Handle general case
-            case _:
-                match list(s):
-                    case [a, "-", b]:
-                        out.append(Set((int(a), int(b)), None, "Complete", True))
-                    case [a, b, "-", c]:
-                        out.append(Set((10*int(a) + int(b), int(c)), None, "Complete", True))
-                    case [a, "-", b, "?"]:
-                        out.append(Set((int(a), int(b)), None, "Incomplete", False))
-                    case [a, "-", b, c]:
-                        out.append(Set((int(a), 10*int(b) + int(c)), None, "Complete", True))
-                    case ["[", a, "-", b, "]"]:
-                        out.append(Set(None, (int(a), int(b)), "Tiebreak", True))
-                    case [a, b, "-", c, d]:
-                        out.append(Set((10*int(a) + int(b), 10*int(c) + int(d)), None, "Complete", True))
-                    case [a, "-", b, "(", c, ")"]:
-                        out.append(Set((int(a), int(b)), int(c), "Complete", True))
-                    case [a, "-", b, "(", c, d, ")"]:
-                        out.append(Set((int(a), int(b)), 10*int(c) + int(d), "Complete", True))
-                    case ["[", a, b, "-", c, "]"]:
-                        out.append(Set(None, (10*int(a) + int(b), int(c)), "Tiebreak", True))
-                    case ["[", a, b, "-", c, d, "]"]:
-                        out.append(Set(None, (10*int(a) + int(b), 10*int(c) + int(d)), "Tiebreak", True))
-                    case ["[", a, "-", b, c, "]"]:
-                        out.append(Set(None, (int(a), 10*int(b) + int(c)), "Tiebreak", True))
-                    case _:
-                        print(colored("Fatal Error", "red"),
-                                f"No case in _get_sets matches {s}")
-                        print(dct)
-                        exit(1)
+        # Handle general case
+        elif len(s) == 3:
+            if s[1] == "-":
+                out.append(Set((int(s[0]), int(s[2])), None, "Complete", True))
+            else:
+                print(colored("Fatal Error", "red"),
+                        f"No case in _get_sets matches {s}")
+                print(dct)
+                exit(1)
+
+        elif len(s) == 4:
+            if s[2] == "-":
+                out.append(Set((10*int(s[0]) + int(s[1]), int(s[3])), None, "Complete", True))
+            elif [s[1], s[3]] == ["-", "?"]:
+                out.append(Set((int(s[0]), int(s[2])), None, "Incomplete", False))
+            elif s[1] == "-":
+                out.append(Set((int(s[0]), 10*int(s[2]) + int(s[3])), None, "Complete", True))
+            else:
+                print(colored("Fatal Error", "red"),
+                        f"No case in _get_sets matches {s}")
+                print(dct)
+                exit(1)
+
+        elif len(s) == 5:
+            if [s[0], s[2], s[4]] == ["[", "-", "]"]:
+                out.append(Set(None, (int(s[1]), int(s[3])), "Tiebreak", True))
+            elif s[2] == "-":
+                out.append(Set((10*int(s[0]) + int(s[1]), 10*int(s[3]) + int(s[4])), None, "Complete", True))
+            else:
+                print(colored("Fatal Error", "red"),
+                        f"No case in _get_sets matches {s}")
+                print(dct)
+                exit(1)
+
+        elif len(s) == 6:
+            if [s[1], s[3], s[5]] == ["-", "(", ")"]:
+                out.append(Set((int(s[0]), int(s[2])), int(s[4]), "Complete", True))
+            elif [s[0], s[3], s[5]] == ["[", "-", "]"]:
+                out.append(Set(None, (10*int(s[1]) + int(s[2]), int(s[4])), "Tiebreak", True))
+            elif [s[0], s[2], s[5]] == ["[", "-", "]"]:
+                out.append(Set(None, (10*int(s[1]) + int(s[3]), int(s[4])), "Tiebreak", True))
+            else:
+                print(colored("Fatal Error", "red"),
+                        f"No case in _get_sets matches {s}")
+                print(dct)
+                exit(1)
+        
+        elif len(s) == 7:
+            if [s[0], s[3], s[6]] == ["[", "-", "]"]:
+                out.append(Set(None, (10*int(s[1]) + int(s[2]), 10*int(s[4]) + int(s[5])), "Tiebreak", True))
+            elif [s[1], s[3], s[6]] == ["-", "(", ")"]:
+                out.append(Set((int(s[0]), int(s[2])), 10*int(s[4]) + int(s[5]), "Tiebreak", True))
+            else:
+                print(colored("Fatal Error", "red"),
+                        f"No case in _get_sets matches {s}")
+                print(dct)
+                exit(1)
+
+        else:
+            print(colored("Fatal Error", "red"),
+                    f"No case in _get_sets matches {s}")
+            print(dct)
+            exit(1)
                 
 
     # Do some post-processing

@@ -22,21 +22,19 @@ def _assign_seed(seed):
 
 
 def _assign_entry(entry):
-    match entry:
-        case "WC": return "Wild card"
-        case "Q": return "Qualifier"
-        case "LL": return "Lucky loser"
-        case "PR": return "Protected ranking"
-        case "ITF": return "ITF entry"
-        case "S": return "Special exempt"
-        case "SE": return "Special exempt"
-        case "ALT": return "Alternative"
-        case "Alt": return None
-        case "": return None
-        case _:
-            print(colored("Fatal Error:", "red"),
-                f"can't convert entry {entry} of type {type(entry)}")
-            exit(1)
+    if entry == "WC": return "Wild card"
+    if entry == "Q": return "Qualifier"
+    if entry == "LL": return "Lucky loser"
+    if entry == "PR": return "Protected ranking"
+    if entry == "ITF": return "ITF entry"
+    if entry == "S": return "Special exempt"
+    if entry == "SE": return "Special exempt"
+    if entry == "ALT" or entry == "Alt": return "Alternative"
+    if entry == "": return None
+
+    print(colored("Fatal Error:", "red"),
+            f"can't convert entry {entry} of type {type(entry)}")
+    exit(1)
 
 
 def _assign_rank(rank):
