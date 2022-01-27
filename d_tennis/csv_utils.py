@@ -72,6 +72,7 @@ def csv_to_cells(path, same_length=True):
             else:
                 print(colored("Fixable Error:", "yellow"),
                         "unmatched row lengths - need to fix this")
+                exit(1)
         
     return out
 
