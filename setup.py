@@ -5,15 +5,8 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="d_tennis",
-    version="0.0.1",
     author="Darcy Raimond",
     author_email="darcy.raimond@gmail.com",
-    description="",
-    long_description=long_description,
-    long_description_content_type="text/markdown",
-    url="",
-
-    #package_dir={"": "src"},
     packages=setuptools.find_packages(),
     python_requires=">=3.8",
     install_requires=["termcolor"]
