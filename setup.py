@@ -11,13 +11,3 @@ setuptools.setup(
     python_requires=">=3.8",
     install_requires=["termcolor"]
 )
-
-
-"""project_urls={
-        "Bug Tracker": "https://github.com/pypa/sampleproject/issues",
-    },"""
-"""classifiers=[
-        "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: MIT License",
-        "Operating System :: OS Independent",
-    ],"""
