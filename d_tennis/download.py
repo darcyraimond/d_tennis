@@ -88,7 +88,7 @@ def load_auto(force_new_download=False, silent=False):
         # Check if a copy is already downloaded
         try:
             load(path, silent)
-        except AssertionError:
+        except FileNotFoundError:
             if not silent:
                 print(colored("Could not find required files, attempting to download", "blue"))
             download_files(silent)
