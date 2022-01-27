@@ -9,5 +9,5 @@ setuptools.setup(
     author_email="darcy.raimond@gmail.com",
     packages=setuptools.find_packages(),
     python_requires=">=3.8",
-    install_requires=["termcolor"]
+    install_requires=["termcolor", "requests"]
 )
