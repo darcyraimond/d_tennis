@@ -132,3 +132,4 @@ dmypy.json
 example.py
 tennis_atp-master
 profile.txt
+.DS_Store
