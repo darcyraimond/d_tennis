@@ -80,6 +80,7 @@ class Player:
         self.country = d["ioc"]
         self.height = _assign_height(d["height"])
         self.full_name = self.first_name + " " + self.last_name
+        self.array_id = None
 
         # For later use
         self.matches = None
@@ -113,26 +114,6 @@ class Player:
                             print("    - ", end = "")
                             match.show(summary = True)
             print("")
-
-    """def __lt__(self, oth):
-
-        # Check by last name
-        if self.last_name < oth.last_name:
-            return True
-        if self.last_name > oth.last_name:
-            return False
-
-        # Check by first name
-        if self.first_name < oth.first_name:
-            return True
-        if self.first_name > oth.first_name:
-            return False
-
-        self.show()
-        oth.show()
-
-        print(colored("Fatal Error:", "red"), "can't find a way to sort players")
-        exit(1)"""
 
     def add_match(self, match):
         # Must always be safe
@@ -174,10 +155,13 @@ class PlayerArray:
         if safe:
             if player not in self.players:
                 self.players.append(player)
-                #print("Success")
         else:  
-            self.players.append(player)
+            self.players.append(player)            
         self.has_index = False
+
+    def assign_player_ids(self):
+        for i, player in enumerate(self.players):
+            player.array_id = i
 
     def index(self):
         self.id_index = {}
@@ -290,4 +274,5 @@ def get_player_array():
                 "Call load(path) first.")
         exit(1)
     else:
+        player_array.assign_player_ids()
         return player_array
