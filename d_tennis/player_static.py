@@ -15,6 +15,8 @@ def _assign_seed(seed):
         return int(seed)
     elif seed == "":
         return None
+    elif seed == "LL":
+        return "Lucky Loser"
     else:
         print(colored("Fatal Error:", "red"),
                 f"can't convert seed {seed} of type {type(seed)}")
