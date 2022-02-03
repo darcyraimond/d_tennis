@@ -8,3 +8,9 @@ historical tennis data.
 `python3 -m pip install git+https://github.com/darcyraimond/d_tennis`
 
 This will automatically download the `termcolor` package.
+
+Sometimes (always) I forget to update the version number so attempting to install the
+latest version does nothing. In this case, it is necessary to manually
+uninstall then reinstall the library. To uninstall, run
+`python3 -m pip uninstall d_tennis`
+then rerun the installation command above.
