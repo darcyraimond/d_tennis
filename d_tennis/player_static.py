@@ -13,17 +13,20 @@ from termcolor import colored
 def _assign_seed(seed):
     if seed.isnumeric():
         return int(seed)
-    elif seed == "":
+    if seed == "":
         return None
-    elif seed == "LL":
-        return "Lucky Loser"
-    else:
-        print(colored("Fatal Error:", "red"),
-                f"can't convert seed {seed} of type {type(seed)}")
-        exit(1)
+    if type(seed) is str:
+        # This could be an entry type, so check that case
+        val = _assign_entry(seed, is_seed = True)
+        if val != False: 
+            return val
+
+    print(colored("Fatal Error:", "red"),
+            f"can't convert seed {seed} of type {type(seed)}")
+    exit(1)
 
 
-def _assign_entry(entry):
+def _assign_entry(entry, is_seed = False):
     if entry == "WC": return "Wild card"
     if entry == "Q": return "Qualifier"
     if entry == "LL": return "Lucky loser"
@@ -33,6 +36,8 @@ def _assign_entry(entry):
     if entry == "SE": return "Special exempt"
     if entry == "ALT" or entry == "Alt": return "Alternative"
     if entry == "": return None
+
+    if is_seed: return False
 
     print(colored("Fatal Error:", "red"),
             f"can't convert entry {entry} of type {type(entry)}")
