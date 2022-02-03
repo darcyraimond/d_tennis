@@ -7,7 +7,9 @@ historical tennis data.
 
 `python3 -m pip install git+https://github.com/darcyraimond/d_tennis`
 
-This will automatically download the `termcolor` package.
+This will automatically download the following packages:
+- `termcolor`
+- `requests`
 
 Sometimes (always) I forget to update the version number so attempting to install the
 latest version does nothing. In this case, it is necessary to manually
