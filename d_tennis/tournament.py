@@ -14,6 +14,15 @@ from .round import RoundArray
 # ==================================================
 
 
+def _assign_best_of(val):
+    if val == "1" or val == "3" or val == "5":
+        return int(val)
+    else:
+        print(colored("Fatal error", "red"),
+                f"could not interprate best_of value of {val}.")
+        exit(1)
+
+
 class Tournament:
 
     def __init__(self, d):
@@ -36,6 +45,7 @@ class Tournament:
         self.draw_size = int(d["draw_size"])
         self.level = d["tourney_level"]
         self.date = str_to_date(d["tourney_date"])
+        self.best_of = _assign_best_of(d["best_of"])
         
         # Arrays for later filling
         self.rounds = RoundArray()
