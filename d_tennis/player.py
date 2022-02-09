@@ -226,7 +226,7 @@ class PlayerArray:
 
         if verify:
             try:
-                assert full_name == assigned_player.full_name
+                assert full_name in assigned_player.full_name or assigned_player.full_name in full_name
                 assert hand == assigned_player.hand or hand == "Unknown"
                 assert height == assigned_player.height or height is None
                 assert country == assigned_player.country
